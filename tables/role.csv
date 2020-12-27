@@ -1,0 +1,7 @@
+title, salary, dept_id
+manager, 75000, 001
+sales, 60000, 002
+client_services, 50000, 003
+engineering, 90000, 004
+finance, 80000, 005
+legal, 70000, 006
