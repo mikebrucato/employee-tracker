@@ -24,7 +24,7 @@ function mainMenuPrompt() {
       message: "What would you like to do?",
       choices: [
         "View All Employees?",
-        "View Employees but Role?",
+        "View Employees by Role?",
         "View Employees by Department?",
         "Update Existing Employee",
         "Add New Employee?",
@@ -35,24 +35,33 @@ function mainMenuPrompt() {
     .then(function(answer) {
       switch (answer.action) {
       case "View All Employees?":
-        artistSearch();
+        viewAllEmployees();
         break;
 
-      case "Find all artists who appear more than once":
-        multiSearch();
+      case "View Employees by Role?":
+        viewEmployeesByRole();
         break;
 
-      case "Find data within a specific range":
-        rangeSearch();
+      case "View Employees by Department?":
+        viewEmployeesByDepartment();
         break;
 
-      case "Search for a specific song":
-        songSearch();
+      case "Update Existing Employee":
+        UpdateEmployee();
         break;
 
-      case "Find artists with a top song and top album in the same year":
-        songAndAlbumSearch();
+      case "Add New Employee?":
+        addNewEmployee();
         break;
+
+      case "Add New Role?":
+        addNewRole();
+        break;
+      
+      case "Add New Department?":
+        addNewDepartment();
+        break;
+        
       }
     });
 }
