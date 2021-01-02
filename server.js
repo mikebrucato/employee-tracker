@@ -42,15 +42,15 @@ function mainMenuPrompt() {
         break;
 
       case "View Employees by Department?":
-        viewEmployeesByDepartment();
+        viewDepartment();
         break;
 
-      case "View Employees by Role?":
-        viewEmployeesByRole();
+      case "View Roles?":
+        viewRoles();
         break;
 
-      case "Update Existing Employee":
-        UpdateEmployee();
+      case "Update Employee Role":
+        UpdateRole();
         break;
 
       case "Add New Employee?":
@@ -71,7 +71,7 @@ function mainMenuPrompt() {
 
 // View all employees function
 function viewAllEmployees() {
-  connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id LEFT JOIN employee e on employee.manager_id = e.id;",
+  connection.query("SELECT * FROM employee",
   function(err, res) {
     if (err) throw err
     console.table(res)
@@ -79,9 +79,9 @@ function viewAllEmployees() {
   }
 )}
 
-// View employees by department function
-function viewEmployeesByDepartment() {
-  connection.query("SELECT employee.first_name, employee.last_name, department.name AS department FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role. department_id = department.id ORDER BY employee.id",
+// View all departments function
+function viewDepartment() {
+  connection.query("SELECT * FROM department",
   function(err, res) {
     if (err) throw err
     console.table(res)
@@ -89,13 +89,39 @@ function viewEmployeesByDepartment() {
   }
 )}
 
-// View employees by role function
-function viewEmployeesByRole() {
-  connection.query("",
+// View roles function
+function viewRoles() {
+  connection.query("SELECT * FROM role",
   function(err, res) {
     if (err) throw err
-    console.table(res)
+    console.Table(res)
     mainMenuPrompt()
   }
 )}
+
+// Update existing employee role function
+function UpdateRole () {
+    inquirer
+      .prompt ([
+        {
+        type: "input",
+        messege: "Which employee would you like to update?",
+        name: "empUpdate"
+        },
+        {
+        type: "input",
+        messege: "what role would you like to give the employee?",
+        name: "roleUpdate"
+        }
+      ])
+    .then(function(answer) {
+     connection.query("UPDATE employee SET role_id=? WHERE first_name=?", [answer.roleUpdate, answer.empUpdate],
+     function(err, res) {
+       if (err) throw err
+       console.table(res)
+       console.log(answer)
+       mainMenuPrompt()
+     })
+  })
+}
 
