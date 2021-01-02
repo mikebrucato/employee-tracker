@@ -79,3 +79,23 @@ function viewAllEmployees() {
   }
 )}
 
+// View employees by department function
+function viewEmployeesByDepartment() {
+  connection.query("SELECT employee.first_name, employee.last_name, department.name AS department FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role. department_id = department.id ORDER BY employee.id",
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    mainMenuPrompt()
+  }
+)}
+
+// View employees by role function
+function viewEmployeesByRole() {
+  connection.query("",
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    mainMenuPrompt()
+  }
+)}
+
