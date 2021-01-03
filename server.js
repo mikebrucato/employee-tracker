@@ -20,32 +20,33 @@ connection.connect(function(err) {
 
 // Main menu prompt for main menu of employee tracker
 function mainMenuPrompt() {
+  console.log("Welcome to the Employee Tracker")
   inquirer
     .prompt({
       name: "action",
       type: "rawlist",
       message: "What would you like to do?",
       choices: [
-        "View All Employees?",
-        "View Employees by Department?",
-        "View Employees by Role?",
-        "Update Existing Employee",
-        "Add New Employee?",
-        "Add New Role?",
-        "Add New Department?"
+        "View All Employees",
+        "View Departments",
+        "View Roles",
+        "Update Employee Role",
+        "Add New Employee",
+        "Add New Role",
+        "Add New Department"
       ]
     })
     .then(function(answer) {
       switch (answer.action) {
-      case "View All Employees?":
+      case "View All Employees":
         viewAllEmployees();
         break;
 
-      case "View Employees by Department?":
+      case "View Departments":
         viewDepartment();
         break;
 
-      case "View Roles?":
+      case "View Roles":
         viewRoles();
         break;
 
@@ -53,15 +54,15 @@ function mainMenuPrompt() {
         UpdateRole();
         break;
 
-      case "Add New Employee?":
+      case "Add New Employee":
         addNewEmployee();
         break;
 
-      case "Add New Role?":
+      case "Add New Role":
         addNewRole();
         break;
       
-      case "Add New Department?":
+      case "Add New Department":
         addNewDepartment();
         break;
       }
@@ -94,28 +95,28 @@ function viewRoles() {
   connection.query("SELECT * FROM role",
   function(err, res) {
     if (err) throw err
-    console.Table(res)
+    console.table(res)
     mainMenuPrompt()
   }
 )}
 
 // Update existing employee role function
-function UpdateRole () {
+function UpdateRole() {
     inquirer
       .prompt ([
         {
         type: "input",
-        messege: "Which employee would you like to update?",
+        message: "Which employee would you like to update?",
         name: "empUpdate"
         },
         {
         type: "input",
-        messege: "what role would you like to give the employee?",
+        message: "what role would you like to give the employee?",
         name: "roleUpdate"
         }
       ])
     .then(function(answer) {
-     connection.query("UPDATE employee SET role_id=? WHERE first_name=?", [answer.roleUpdate, answer.empUpdate],
+     connection.query("UPDATE (employee SET role_id=? WHERE first_name=?", [answer.roleUpdate, answer.empUpdate],
      function(err, res) {
        if (err) throw err
        console.table(res)
@@ -123,5 +124,41 @@ function UpdateRole () {
        mainMenuPrompt()
      })
   })
+}
+
+
+// Add new employee function
+function addNewEmployee() {
+  inquirer
+    .prompt ([
+      {
+      type: "input",
+      message: "What is the employees first name?",
+      name: "empFirstName"
+      },
+      {
+      type: "input",
+      message: "What is the employee's last name?",
+      name: "empFirstName"
+      },
+      {
+      type: "input",
+      message: "What department is the employee in?",
+      name: "empDepartment"
+      },
+      {
+      type: "input",
+      message: "What is the employee's salary?",
+      name: "empSalary"
+      }
+    ])
+  .then(function(answer) {
+   connection.query("INSERT INTO (employee first_name, last_name, department, salary", [answer.empFirstName, answer.empFirstName, answer.empDepartment, answer.empSalary],
+   function(err, res) {
+     if (err) throw err
+     console.table(res)
+     mainMenuPrompt()
+   })
+ })
 }
 
