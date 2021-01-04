@@ -157,3 +157,52 @@ function addNewEmployee() {
  })
 }
 
+// Add new role function
+function addNewRole() {
+  inquirer
+    .prompt ([
+      {
+      type: "input",
+      message: "What is the name of this new role?",
+      name: "addTitle"
+      },
+      {
+      type: "input",
+      message: "What is the salary of this new role?",
+      name: "addSalary"
+      },
+      {
+      type: "input",
+      message: "What is the department ID of this new role?",
+      name: "addDeptId"
+      },
+    ])
+  .then(function(answer) {
+   connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answer.addTitle, answer.addSalary, answer.addDeptId],
+   function(err, res) {
+     if (err) throw err
+     console.table(res)
+     mainMenuPrompt()
+   })
+ })
+}
+
+// Add new department function
+function addNewDepartment() {
+  inquirer
+    .prompt ([
+      {
+      type: "input",
+      message: "What is the name of this new department?",
+      name: "addName"
+      },
+    ])
+  .then(function(answer) {
+   connection.query("INSERT INTO department (name) VALUES (?)", [answer.addName],
+   function(err, res) {
+     if (err) throw err
+     console.table(res)
+     mainMenuPrompt()
+   })
+ })
+}
