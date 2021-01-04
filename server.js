@@ -106,17 +106,22 @@ function UpdateRole() {
       .prompt ([
         {
         type: "input",
-        message: "Which employee would you like to update?",
-        name: "empUpdate"
+        message: "What's the employee's first name?",
+        name: "updFirstName"
         },
         {
         type: "input",
-        message: "what role would you like to give the employee?",
-        name: "roleUpdate"
+        message: "what's the employee's last name",
+        name: "updLastName"
+        },
+        {
+        type: "input",
+        message: "What role would you like to give the employee?",
+        name: "updRole"
         }
       ])
     .then(function(answer) {
-     connection.query("UPDATE (employee SET role_id=? WHERE first_name=?", [answer.roleUpdate, answer.empUpdate],
+     connection.query("UPDATE employee (first_name, last_name, role_id) VALUES (?, ?, ?)", [answer.updFirstName, answer.updFirstName, answer.updRole],
      function(err, res) {
        if (err) throw err
        console.table(res)
@@ -139,21 +144,11 @@ function addNewEmployee() {
       {
       type: "input",
       message: "What is the employee's last name?",
-      name: "empFirstName"
+      name: "empLastName"
       },
-      {
-      type: "input",
-      message: "What department is the employee in?",
-      name: "empDepartment"
-      },
-      {
-      type: "input",
-      message: "What is the employee's salary?",
-      name: "empSalary"
-      }
     ])
   .then(function(answer) {
-   connection.query("INSERT INTO (employee first_name, last_name, department, salary", [answer.empFirstName, answer.empFirstName, answer.empDepartment, answer.empSalary],
+   connection.query("INSERT INTO employee (first_name, last_name) VALUES (?, ?)", [answer.empFirstName, answer.empLastName],
    function(err, res) {
      if (err) throw err
      console.table(res)
